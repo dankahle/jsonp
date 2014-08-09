@@ -8,10 +8,10 @@ then server then returns:
 myCallBackName({some json});
 
 #### index.js
-Nothing fancy here, just a GET handler what looks for a "callback" querystring parameter. If it exists, it wraps the json in that callback name, if not, just sends out the json.
+An express.js app with a GET handler that looks for a "callback" querystring parameter. If it exists, it wraps the json in that callback name and updates the mime to: "application/javascript", if not, just sends out the json.
 
 #### index.html
-A button for making the request and it's handler. Once clicked it calls the "jsonp" function with the url for the request and receives a promise in return. Upon resolving the promise it adds an LI to the UL for each value in the array.
+Has a button for making the request and it's handler. Once clicked it calls the "jsonp" function with the url for the request and receives a promise in return. Upon resolving the promise it adds an LI to the UL for each value in the array.
 
 #### doJsonp
 Does the actual jsonp work. 
