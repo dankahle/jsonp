@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+</head>
+<body>
+<button onclick="click2()">click</button>
+<ul></ul>
+<script>
+	function doJsonp(url){
+		//init
+		jsonpcb_val = undefined;
+		// if callback doesn't exist, create it
+		var $s =  $('#jsonpcb_script');
+		if($s.length == 0){
+			$s = $('<script/>');
+			$s.attr('id', 'jsonpcb_script');
+			$s.text('function jsonpcb(val){ jsonpcb_val = val;};');
+			$(document.body).append($s);
+		}
+
+		var def = $.Deferred();
+		// create transfer script
+		$s = $('<script/>');
+		$s.attr('src', url + (url.indexOf('?') == -1? '?': '&') + 'callback=jsonpcb');
+		$(document.body).append($s);
+
+		var count = 0;
+		// look for response (good or bad)
+		var timer = setInterval(function(){
+			console.log('timer:', count++);
+			if(jsonpcb_val){
+				def.resolve(jsonpcb_val);
+				// clean up
+				$s.remove();
+				jsonpcb_val = undefined;
+				clearInterval(timer);
+			}
+			// wait 3 seconds, then timeout
+			else if(count > 300){
+				def.reject('timeout');
+				clearInterval(timer);
+			}
+		},10);
+		return def;
+	}
+
+	function click2(){
+		doJsonp('/user/dk/card').then(function(val){
+			val.forEach(function(v){
+				$('ul').append($('<li>').text(JSON.stringify(v)));
+			})
+		}, function(error){
+			console.log('error:', error);
+		})
+	}
+</script>
+</body>
+</html>
