@@ -30,6 +30,7 @@
 		var timer = setInterval(function(){
 			console.log('timer:', count++);
 			if(jsonpcb_val){
+				console.log('resolve', jsonpcb_val);
 				def.resolve(jsonpcb_val);
 				// clean up
 				$s.remove();
@@ -37,11 +38,12 @@
 				clearInterval(timer);
 			}
 			// wait 3 seconds, then timeout
-			else if(count > 300){
+			else if(count > 30){
+				console.log('rejected for timeout');
 				def.reject('timeout');
 				clearInterval(timer);
 			}
-		},10);
+		},100);
 		return def;
 	}
 
