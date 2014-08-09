@@ -1,6 +1,7 @@
 var express = require('express');
 
 var app = express();
+app.set('port', (process.env.PORT || 3000));
 app.use(express.static(__dirname + '/public'));
 
 var userCards = {
@@ -19,6 +20,6 @@ app.get('/user/:userId/card', function(req, res){
 	res.send(cards);
 });
 
-app.listen(3000);
-console.log('listening on 3000');
+app.listen(app.get('port'));
+console.log('listening on: ' + app.get('port'));
 
