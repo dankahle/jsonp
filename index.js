@@ -6,8 +6,8 @@ app.use(express.static(__dirname + '/public'));
 
 var userCards = {
 	dk: [
-		{id: 101, number: '1111', name: 'dank'},
-		{id: 102, number: '2222', name: 'dank1'}
+		{id: 101, number: '1111', name: 'dank101'},
+		{id: 102, number: '2222', name: 'dank102'}
 	]
 };
 
